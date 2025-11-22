@@ -20,7 +20,7 @@ DocIntel reads PDFs and text files, classifies them (Invoice, Resume, Utility Bi
    cd docintel
    ```
 
-2. Create and activate a virtual environment (recommended)
+2. Create and activate a virtual environment (Pycharm is recommended)
    - macOS / Linux:
      ```
      python3 -m venv .venv
