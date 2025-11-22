@@ -20,7 +20,7 @@ DocIntel reads PDFs and text files, classifies them (Invoice, Resume, Utility Bi
    cd docintel
    ```
 
-2. Create and activate a virtual environment ( Pycharm is more recommended )
+2. Create and activate a virtual environment (recommended)
    - macOS / Linux:
      ```
      python3 -m venv .venv
@@ -62,19 +62,11 @@ python -c "from sentence_transformers import SentenceTransformer; m = SentenceTr
 - Text extraction/parsing: regex (regular expressions)
 - Others: requests, fsspec, tqdm, PyYAML, packaging
 
-This project generates two JSON files after processing all documents:
-
-##output.json
-- Contains all 5 most relevant entries with extracted structured fields:
-
-- Document category (Invoice / Resume / Utility Bill / Other / Unclassifiable)
-
-- Extracted fields (e.g., dates, invoice numbers, names, totals)
-
-- Cleaned text (optional, depending on configuration)
-
-##all_data.json
-- Contains all the raw extracted text and all metadata for every processed PDF/text file.
+## Output
+- Produces JSON files containing:
+  - Document category (Invoice/Resume/Utility Bill/Other)
+  - Extracted structured fields (e.g., dates, invoice number, totals)
+  - Embeddings or references used for semantic search (depending on configuration)
 
 
 
