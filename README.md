@@ -1,4 +1,4 @@
-```markdown
+
 # docintel
 
 Local AI system for document intelligence.
@@ -69,5 +69,3 @@ python -c "from sentence_transformers import SentenceTransformer; m = SentenceTr
   - Embeddings or references used for semantic search (depending on configuration)
 
 
-
-```
