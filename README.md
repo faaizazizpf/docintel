@@ -42,12 +42,10 @@ DocIntel reads PDFs and text files, classifies them (Invoice, Resume, Utility Bi
    - You may need system libraries for PDF parsers (e.g., libpoppler) depending on your OS.
 
 4. Run the program
-   - Check repository root for the main entrypoint (e.g., `main.py`, `app.py`, or package entrypoint). Example commands to try:
+   - In the repository root:
      ```
-     python main.py --input inputs/ --output results/
-     python -m docintel --help
+     python main.py
      ```
-   - If the repository includes a YAML config or CLI flags, pass input/output paths per the script’s options.
 
 ## Example: quick verification script
 This minimal check ensures the embedding libraries work (not a repo script):
