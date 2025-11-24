@@ -18,21 +18,33 @@ DocIntel reads PDFs and text files, classifies them (Invoice, Resume, Utility Bi
 ## Run Gemma 3 with Ollama (Windows Guide)
 
 ✅ 1. Install Ollama
+
    Download and install Ollama for Windows:
+   
    ➡️ https://ollama.com/download
+   
    After installation, Ollama runs a local server at:
+   
    ```
    http://localhost:11434
    ```
 
 ✅ 2. Pull the Gemma 3 Model
+
 Open PowerShell or CMD:
-     ```
+
+```
      ollama pull gemma3
-     ```
+```
+
+Then while the ollama server runs, switch to/open new terminal
+
+ ```
+     ollama server
+ ```
  
 
-✅ 3. Run the Model
+✅ 3. Test the Model (no Document knowledge)
 Start a chat session with:
    ```
    ollama run gemma3
@@ -43,7 +55,9 @@ Start a chat session with:
    ```
 
 ✅ 4. Verify GPU Acceleration (Optional)
+
 Ollama automatically uses your NVIDIA GPU if available.
+
 Check GPU activity:
 ```
 nvidia-smi
@@ -62,6 +76,7 @@ ollama run gemma3
 ```
 
 ✅ 5. Use Gemma 3 in Python
+
 Install the Ollama Python client:
 ```
 pip install ollama
@@ -136,5 +151,6 @@ python -c "from sentence_transformers import SentenceTransformer; m = SentenceTr
   - Document category (Invoice/Resume/Utility Bill/Other)
   - Extracted structured fields (e.g., dates, invoice number, totals)
   - Embeddings or references used for semantic search (depending on configuration)
+- Bot Answer for user query
 
 
