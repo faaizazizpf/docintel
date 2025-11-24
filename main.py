@@ -165,12 +165,55 @@ def save_matches_full(matches, results, filename="search_results.json"):
     with open(filename, "w") as f:
         json.dump(output, f, indent=2)
 
-    print(f"\nSemantic search full results saved to {filename}")
-
+    print(f"\nSemantic search full result:\n{output}\n\n saved to {filename}")
+    return output
 
 # ------------------------------
 # 7. Run Entire Pipeline
 # ------------------------------
+def build_context(retrieved_docs, full_texts):
+    """
+    retrieved_docs: list of filenames returned by FAISS (e.g., keys of your dict)
+    full_texts: dict("filename.pdf" -> extracted cleaned text)
+    """
+
+    context_chunks = []
+    for filename in retrieved_docs:
+        if filename in full_texts:
+            context_chunks.append(f"### Document: {filename}\n{full_texts[filename]}\n")
+
+    return "\n".join(context_chunks)
+
+def build_prompt(question, context):
+    return f"""
+            You are a local question-answering system. 
+            Answer ONLY using the information from the documents below. 
+            If the answer cannot be found, say: "The documents do not contain this information."
+            
+            ------------------
+            DOCUMENTS:
+            {context}
+            ------------------
+            
+            Question: {question}
+            
+            Answer:
+            """
+
+from ollama import chat
+from ollama import ChatResponse
+def local_qa(question, context):
+    prompt = build_prompt(question, context)
+
+    response = chat(
+        model='gemma3',
+        messages=[
+            {'role': 'user', 'content': prompt}
+        ]
+    )
+
+    return response['message']['content']
+
 
 if __name__ == "__main__":
     print("Processing documents...")
@@ -182,16 +225,30 @@ if __name__ == "__main__":
     save_output(results)
 
     print("\nSemantic Search Example:")
-    query = "Find all documents mentioning payments due in January"
+    query = "Find all documents mentioning total amount 1955"
     print(f"Query: {query}")
 
     matches = semantic_search(query, model, embeddings)
 
-    print("\nTop Matches:")
-    for file, score in matches:
-        print(f"{file} — score: {score:.4f}")
+    # print("\nTop Matches:")
+    # for file, score in matches:
+    #     print(f"{file} — score: {score:.4f}")
 
     # Save full JSON of matched documents
+    # Save matches (optional, but it removes text)
+    # Save semantic search results (optional)
     save_matches_full(matches, results, "output.json")
 
+    # Correct list of actual retrieved files
+    retrieved_files = [filename for filename, score in matches]
+
+    # Use the original `results` dict because it contains text
+    context = build_context(retrieved_files, results)
+
+    # Ask a question using retrieved context
+    question = query  # or any custom question
+
+    answer = local_qa(question, context)
+    print("\nLLM Answer:\n", answer)
     print("\nDone.")
+
